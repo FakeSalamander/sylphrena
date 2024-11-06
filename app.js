@@ -406,7 +406,24 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
       const plotResult = plotRollResult(plotRoll);
       const plotBonus = plotRollBonus(plotRoll);
       
-      msg = msg + plotResult +"\n\n";
+      msg = msg + plotResult +"\n";
+      
+            //dmgRoll2 is only used in the case of dmgCount = 2
+      var dmgRoll1;
+      var dmgRoll2 = 0;
+      
+      //time for the damage roll!
+      if (dmgSize === 0) {
+        dmgRoll1 = 1;
+        msg = msg + "[1] No Damage Roll\n\n";
+      } else if (dmgCount === 1) {
+        dmgRoll1 = (Math.floor*(Math.random) * dmgSize) +1;
+        msg = msg + "[" + dmgRoll1 + "] 1d" + dmgSize + " Damage Roll\n\n";
+      } else {
+        dmgRoll1 = (Math.floor*(Math.random) * dmgSize) +1;
+        dmgRoll2 = (Math.floor*(Math.random) * dmgSize) +1;
+        msg = msg + "[" + dmgRoll1 + ", " + dmgRoll2 +  "] 2d" + dmgSize + " Damage Roll\n\n";
+      }
       
       
       //The end result of the roll, with bonuses from the modifier and the plot die
@@ -424,22 +441,11 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
       }
       msg = msg + "\n"
       
-      //dmgRoll2 is only used in the case of dmgCount = 2
-      var dmgRoll1;
-      var dmgRoll2 = 0;
+      //Time for the final damage tally!
+      const fullDmgRoll = dmgRoll1 + dmgRoll2;
       
-      //time for the damage roll!
-      if (dmgSize === 0) {
-        dmgRoll1 = 1;
-        msg = msg + "[1] No Damage Roll\n";
-      } else if (dmgCount === 1) {
-        dmgRoll1 = (Math.floor*(Math.random) * dmgSize) +1;
-        msg = msg + "[" + dmgRoll1 + "] 1d" + dmgSize + " Damage Roll\n";
-      } else {
-        dmgRoll1 = (Math.floor*(Math.random) * dmgSize) +1;
-        dmgRoll2 = (Math.floor*(Math.random) * dmgSize) +1;
-        msg = msg + "[" + dmgRoll1 + ", " + dmgRoll2 +  "] 2d" + dmgSize + " Damage Roll\n";
-      }
+      msg = msg + "[" + dmgRoll1 + ", " + dmgRoll2 +  "] 2d" + dmgSize + " + " + modifier + " ---> ` " + fullDmgRoll + " ` Damage if hit!";
+
         
       // Send the diceroll  into the channel where command was triggered from
       return res.send({

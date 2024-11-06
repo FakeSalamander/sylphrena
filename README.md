@@ -19,7 +19,6 @@ The Cosmere RPG is property of Brandon Sanderson and Brotherwise Games. Sylphren
     - For similar reasons, the same logic is used for disadvantaged plot die. The GM chooses their preferred result instead of the player.
     
 `/plot_attack <modifier> <damage die>`: Rolls a standard attack, which consists of a 1d20, the plot die, and the damage die. The size and amount of damage dice is inputted by the user, and decided by the characters weapon. The modifier is added to both the 1d20 and the damage dice.
-    - This command is currently unfinished.
 
 ## Planned Features
 
