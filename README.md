@@ -1,3 +1,5 @@
+## Introduction
+
 Sylphrena is a simple Discord dice-rolling bot built for use with the Cosmere RPG. It is based off the open-source [Discord Example App](https://github.com/discord/discord-example-app).
 
 It currently focuses on rolls involving the Cosmere RPG's unique plot die, which is inconvient to emulate using conventional dice-rolling bots, and must therefore be paired up with a conventional dice-rolling bot. This may or may not be expanded upon in the future.
@@ -7,12 +9,17 @@ The Cosmere RPG is property of Brandon Sanderson and Brotherwise Games. Sylphren
 ## Commands
 
 `/plot_die`: Rolls a singular plot die and displays its result.
+
 `/plot_roll <modifier>`: Rolls a standard skill check with a plot die, which consists of a 1d20 + a skill modifier and the plot die.
+
 `/advantage_roll <modifier> <advantages>`: Like the above command, but the user can designate for the d20, the plot die, or both to be advantaged. An advantaged die is rolled twice and the better result is kept.
     - The "better result" of a plot die is often ambiguous. Thus, whenever the plot die is advantaged and the two rolls come up  on different faces, both potential results are shown for the player to choose.
+    
 `/disadvantage_roll <modifier> <disasvantages>`: Like the above command, but with disadvantages instead. A disadvantaged die is rolled twice and the worse result is kept.
     - For similar reasons, the same logic is used for disadvantaged plot die. The GM chooses their preferred result instead of the player.
+    
 `/plot_attack <modifier> <damage die>`: Rolls a standard attack, which consists of a 1d20, the plot die, and the damage die. The size and amount of damage dice is inputted by the user, and decided by the characters weapon. The modifier is added to both the 1d20 and the damage dice.
+    - This command is currently unfinished.
 
 ## Planned Features
 
