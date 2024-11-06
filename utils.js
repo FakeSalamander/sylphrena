@@ -78,3 +78,12 @@ export function plotRollBonus(roll) {
       return 0;
     }
 }
+
+export function diceToPair(dice) {
+  if (dice === '1') {
+    return [1, 0];
+  } else {
+    var numbers = dice.split("d");
+    return [ +numbers[0] , +numbers[1] ];
+  }
+}

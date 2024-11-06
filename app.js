@@ -9,6 +9,7 @@ import { getRandomEmoji } from './utils.js';
 import { plotRollResult } from './utils.js';
 import { plotRollBonus } from './utils.js';
 import { plotRollEmoji } from './utils.js';
+import { diceToPair } from './utils.js';
 
 // Create an express app
 const app = express();
@@ -385,9 +386,13 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
       // The modifier n that is added to both the attack and damage rolls
       const modifier = req.body.data.options[0].value;
       
+      //gets the dice results and converts them to a more convenient format
+      const diceString = req.body.data.options[1].value;
+      const dicePair = diceToPair(diceString);
+      
       //The amount and size of the damage die
-      const dmgCount = req.body.data.options[1].value[0];
-      const dmgSize = req.body.data.options[1].value[1];
+      const dmgCount = dicePair[0];
+      const dmgSize = dicePair[1];
       
       //tracks opportunities and complications gained.
       
@@ -417,11 +422,11 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
         dmgRoll1 = 1;
         msg = msg + "[1] No Damage Roll\n\n";
       } else if (dmgCount === 1) {
-        dmgRoll1 = (Math.floor*(Math.random) * dmgSize) +1;
+        dmgRoll1 = (Math.floor(Math.random) * dmgSize) +1;
         msg = msg + "[" + dmgRoll1 + "] 1d" + dmgSize + " Damage Roll\n\n";
       } else {
-        dmgRoll1 = (Math.floor*(Math.random) * dmgSize) +1;
-        dmgRoll2 = (Math.floor*(Math.random) * dmgSize) +1;
+        dmgRoll1 = (Math.floor(Math.random) * dmgSize) +1;
+        dmgRoll2 = (Math.floor(Math.random) * dmgSize) +1;
         msg = msg + "[" + dmgRoll1 + ", " + dmgRoll2 +  "] 2d" + dmgSize + " Damage Roll\n\n";
       }
       
@@ -439,7 +444,7 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
       } else {
         msg = msg + "- " + Math.abs(modifier) + " + " + plotBonus; 
       }
-      msg = msg + "\n"
+      msg = msg + "\n";
       
       //Time for the final damage tally!
       const fullDmgRoll = dmgRoll1 + dmgRoll2;

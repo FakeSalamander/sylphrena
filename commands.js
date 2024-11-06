@@ -138,18 +138,19 @@ const ATKROLL_COMMAND = {
     },
     {
       type: 3,
-      name: 'damage die',
+      name: 'damage_die',
       description: 'The damage die of your weapon',
       required: true,
       choices: [
-        {name:'1', value:[1, 0]}, 
-        {name:'1d4', value:[1, 4]}, 
-        {name:'1d6', value:[1, 6]}, 
-        {name:'1d8', value:[1, 8]}, 
-        {name:'1d10', value:[1, 10]}, 
-        {name:'2d6', value:[2, 6]}, 
-        {name:'2d8', value:[2, 8]}, 
-        {name:'2d10', value:[2, 10]}
+        {name:'1', value:'1'}, 
+        {name:'1d4', value:'1d4'}, 
+        {name:'1d6', value:'1d6'}, 
+        {name:'1d8', value:'1d8'}, 
+        {name:'1d10', value:'1d10'},
+        {name:'1d12', value: '1d12'},
+        {name:'2d6', value:'2d6'}, 
+        {name:'2d8', value:'2d8'}, 
+        {name:'2d10', value:'2d10'}
       ],
     },
   ],
@@ -160,6 +161,6 @@ const ATKROLL_COMMAND = {
 
 
 
-const ALL_COMMANDS = [PLOTDIE_COMMAND, ADVROLL_COMMAND, DISADVROLL_COMMAND, ATKROLL_COMMAND];
+const ALL_COMMANDS = [PLOTDIE_COMMAND, PLOTROLL_COMMAND, ADVROLL_COMMAND, DISADVROLL_COMMAND, ATKROLL_COMMAND];
 
 InstallGlobalCommands(process.env.APP_ID, ALL_COMMANDS);
