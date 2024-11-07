@@ -8,7 +8,7 @@ The Cosmere RPG is property of Brandon Sanderson and Brotherwise Games. Sylphren
 
 ## Commands
 
-`/plot_die`: Rolls a singular plot die and displays its result.
+`/plot_die <amount>`: Rolls an \<amount\> of plot dice. Rolls 1 plot die by default if no amount is entered.
 
 `/plot_roll <modifier>`: Rolls a standard skill check with a plot die, which consists of a 1d20 + a skill modifier and the plot die.
 
@@ -22,8 +22,6 @@ The Cosmere RPG is property of Brandon Sanderson and Brotherwise Games. Sylphren
     - This command is currently broken for any damage die value other than "1"
 
 ## Planned Features
-
-- Allow the `/plot_die` command to roll multiple plot dice at once.
 
 - Clean up the output of the `/attack_die` command, which is very unwieldy and cluttered at the moment.
 

@@ -48,9 +48,17 @@ const CHALLENGE_COMMAND = {
 */
 
 const PLOTDIE_COMMAND = {
-    name: 'plot_die',
-    description: 'Rolls the 6-sided Cosmere RPG\'s Plot Die',
-    type: 1,
+  name: 'plot_die',
+  description: 'Rolls the 6-sided Cosmere RPG\'s Plot Die',
+  type: 1,
+  options: [
+    {
+        type: 4,
+        name: 'amount',
+        description: 'the amount of plot dice to roll',
+        required: false,
+    }
+  ],
   integration_types: [0, 1],
   contexts: [0, 2],
 }

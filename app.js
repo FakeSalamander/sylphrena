@@ -53,16 +53,26 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
     //"plot_die command", just rolls a Plot Die
     if (name === 'plot_die') {
        //The raw roll of the plot die, from 1 to 6
+      var amount;
+      if (typeof req.body.data.options === 'undefined') {
+        amount = 1;
+      } else {
+        amount = req.body.data.options[0].value;
+      }
+      
+      var msg = "";
+      for (let i = 0; i < amount; i++) {
       const plotRoll = (Math.floor(Math.random() * 6) + 1);
       
-      const plotResult = plotRollResult(plotRoll);
+      msg = msg + plotRollResult(plotRoll) + "\n" ;
+      }
       
           // Send the diceroll  into the channel where command was triggered from
       return res.send({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         data: {
           // Fetches a random emoji to send from a helper function
-          content: plotResult,
+          content: msg,
         },
       });
     }
