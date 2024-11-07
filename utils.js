@@ -83,7 +83,7 @@ export function diceToPair(dice) {
   if (dice === '1') {
     return [1, 0];
   } else {
-    var numbers = dice.split("d");
-    return [ +numbers[0] , +numbers[1] ];
+    const numbers = dice.split("d");
+    return [ parseInt(numbers[0]) , parseInt(numbers[1]) ];
   }
 }

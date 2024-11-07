@@ -25,6 +25,8 @@ The Cosmere RPG is property of Brandon Sanderson and Brotherwise Games. Sylphren
 
 - Allow the `/plot_die` command to roll multiple plot dice at once.
 
+- Clean up the output of the `/attack_die` command, which is very unwieldy and cluttered at the moment.
+
 - Alter the plot-die logic of the advantage and disadvantage commands to filter out situations where the two plot die rolled different results, but one result is strictly better than the other.
     - This consists of (Blank and Opportunity) or (Complication +2 and Complication +4). In any case where one result is a Complication and the other is not, the "better result" is ambiguous.
     

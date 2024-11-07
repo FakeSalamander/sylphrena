@@ -416,25 +416,30 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
             //dmgRoll2 is only used in the case of dmgCount = 2
       var dmgRoll1;
       var dmgRoll2 = 0;
+      var dmgMsg;
       
       //time for the damage roll!
       if (dmgSize === 0) {
         dmgRoll1 = 1;
+        
+        dmgMsg = "[1] 1";
         msg = msg + "[1] No Damage Roll\n\n";
       } else if (dmgCount === 1) {
-        dmgRoll1 = (Math.floor(Math.random) * dmgSize) +1;
-        msg = msg + "[" + dmgRoll1 + "] 1d" + dmgSize + " Damage Roll\n\n";
+        dmgRoll1 = (Math.floor(Math.random() * dmgSize) +1);
+        dmgMsg =  "[" + dmgRoll1 + "] 1d" + dmgSize;
+        msg = msg + dmgMsg + " Damage Roll\n\n";
       } else {
-        dmgRoll1 = (Math.floor(Math.random) * dmgSize) +1;
-        dmgRoll2 = (Math.floor(Math.random) * dmgSize) +1;
-        msg = msg + "[" + dmgRoll1 + ", " + dmgRoll2 +  "] 2d" + dmgSize + " Damage Roll\n\n";
+        dmgRoll1 = (Math.floor(Math.random() * dmgSize) +1);
+        dmgRoll2 = (Math.floor(Math.random() * dmgSize) +1);
+        dmgMsg =  "[" + dmgRoll1 + ", " + dmgRoll2 +  "] 2d" + dmgSize;
+        msg = msg + dmgMsg + " Damage Roll\n\n";
       }
       
       
       //The end result of the roll, with bonuses from the modifier and the plot die
       const finalRoll = d20 + modifier + plotBonus;
       
-       msg = msg + "` " + finalRoll + " ` <--- [" + d20 + "] ";
+       msg = msg + " [" + d20 + "] 1d20 ";
       if (plotBonus === 0 && modifier >= 0) {
         msg = msg + "+ " +  modifier;  
       } else if (plotBonus === 0) {
@@ -444,12 +449,12 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
       } else {
         msg = msg + "- " + Math.abs(modifier) + " + " + plotBonus; 
       }
-      msg = msg + "\n";
+      msg = msg + " ---> ` " + finalRoll +  " ` Attack Roll!\n";
       
       //Time for the final damage tally!
       const fullDmgRoll = dmgRoll1 + dmgRoll2;
       
-      msg = msg + "[" + dmgRoll1 + ", " + dmgRoll2 +  "] 2d" + dmgSize + " + " + modifier + " ---> ` " + fullDmgRoll + " ` Damage if hit!";
+      msg = msg + dmgMsg + " + " + modifier + " ---> ` " + fullDmgRoll + " ` Damage if hit!";
 
         
       // Send the diceroll  into the channel where command was triggered from
