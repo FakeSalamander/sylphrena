@@ -136,7 +136,7 @@ const DISADVROLL_COMMAND = {
 
 const ATKROLL_COMMAND = {
   name: 'attack_roll',
-  description: 'Make a typical 1d20 roll with a modifier and the plot die',
+  description: 'Make an attack roll with a 1d20, plot die, and damage dice',
   options: [
     {
       type: 4,
@@ -159,6 +159,54 @@ const ATKROLL_COMMAND = {
         {name:'2d6', value:'2d6'}, 
         {name:'2d8', value:'2d8'}, 
         {name:'2d10', value:'2d10'}
+      ],
+    },
+  ],
+  type: 1,
+  integration_types: [0, 1],
+  contexts: [0, 2],
+};
+
+const ADVATK_COMMAND = {
+  name: 'advantage_attack',
+  description: 'Make an an advantaged attack roll',
+  options: [
+    {
+      type: 4,
+      name: 'modifier',
+      description: 'The modifier to your d20/damage rolls from your skill modifier and any bonuses/penalties',
+      required: true,
+    },
+    {
+      type: 3,
+      name: 'damage_die',
+      description: 'The damage die of your weapon',
+      required: true,
+      choices: [
+        {name:'1', value:'1'},
+        {name:'1d4', value:'1d4'},
+        {name:'1d6', value:'1d6'},
+        {name:'1d8', value:'1d8'},
+        {name:'1d10', value:'1d10'},
+        {name:'1d12', value: '1d12'},
+        {name:'2d6', value:'2d6'},
+        {name:'2d8', value:'2d8'},
+        {name:'2d10', value:'2d10'}
+      ],
+    },
+    {
+      type: 3,
+      name: 'advantages',
+      description: 'which dice are advantaged?',
+      required: true,
+      choices: [
+        {name:'d20', value: 'd20'},
+        {name:'plot', value: 'plot'},
+        {name:'damage', value: 'damage'},
+        {name:'d20 and plot', value: 'd20 and plot'},
+        {name:'d20 and damage', value: 'd20 and damage'},
+        {name:'plot and damage', value: 'plot and damage'}
+        {name:'all three', value: 'all three'}
       ],
     },
   ],
