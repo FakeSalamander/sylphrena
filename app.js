@@ -190,7 +190,6 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
           } else if (plotResult1 === "<:cosmere_comp2:1302349866617274629> **Complication!** Bonus +2" && plotResult2 === "<:cosmere_comp4:1302349867875565599> **Complication!** Bonus +4") {
               msg = msg + plotRollEmoji(plot1) + plotResult2 + "\n\n";
               needsTwoResults = false;
-              
               plotBonus1 = plotBonus2; //make sure to do this, since the final message always uses plotBonus1 if two rolls are not needed.
         // Comp4 and Comp2. Same, but flipped. plotBonus1 is used
           } else if (plotResult1 === "<:cosmere_comp4:1302349867875565599> **Complication!** Bonus +4" && plotResult2 === "<:cosmere_comp2:1302349866617274629> **Complication!** Bonus +2") {
@@ -323,7 +322,7 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
       //determines if the final line  needs two potential results to show off.
       var needsTwoResults;
       
-      if (which_adv === 'plot' || which_adv === 'both') {
+      if (which_disadv === 'plot' || which_disadv === 'both') {
           const plot1 = (Math.floor(Math.random() * 6) + 1);
           const plot2 = (Math.floor(Math.random() * 6) + 1);
           
@@ -336,6 +335,24 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
           // if the two plot die rolled the same face, we can roughly treat this like an ordinary plot roll.
           if (plotResult1 === plotResult2) {
               msg = msg + plotRollEmoji(plot1) + plotResult1 + "\n\n";
+              needsTwoResults = false;
+          // if the results are Comp2 and Comp4, the Comp2 is assumed to be worse
+          } else if (plotResult1 === "<:cosmere_comp2:1302349866617274629> **Complication!** Bonus +2" && plotResult2 === "<:cosmere_comp4:1302349867875565599> **Complication!** Bonus +4") {
+              msg = msg + plotRollEmoji(plot1) + plotRollEmoji(plot2) + " ** Complication!** Bonus +2\n\n";
+              needsTwoResults = false;
+        // Comp4 and Comp2. Same, but flipped. plotBonus2 is used
+          } else if (plotResult1 === "<:cosmere_comp4:1302349867875565599> **Complication!** Bonus +4" && plotResult2 === "<:cosmere_comp2:1302349866617274629> **Complication!** Bonus +2") {
+              msg = msg + plotRollEmoji(plot1) + plotResult2 + "\n\n";
+              needsTwoResults = false;
+              
+              plotBonus1 = plotBonus2; //make sure to do this, since the final message always uses plotBonus1 if two rolls are not needed.
+        //if the results are Blank and Opportunity, Opportunity is assumed to be better.
+          } else if (plotResult1 === "<:cosmere_blank:1302349869318672395> Blank" && plotResult2 === "<:cosmere_opp:1302349870115459082> **Opportunity!**") {
+              msg = msg + plotRollEmoji(plot1) + plotRollEmoji(plot2) + " Blank\n\n";
+              needsTwoResults = false;
+        // if the results are Opportunity and Blank...
+          } else if (plotResult1 === "<:cosmere_opp:1302349870115459082> **Opportunity!**" && plotResult2 ===  "<:cosmere_blank:1302349869318672395> Blank" ) {
+              msg = msg + plotRollEmoji(plot1) + plotResult2 + "\n\n";
               needsTwoResults = false;
           } else {
               msg = msg + plotResult1 + " ==OR== " + plotResult2 + "\n\n";
