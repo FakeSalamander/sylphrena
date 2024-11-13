@@ -205,7 +205,7 @@ const ADVATK_COMMAND = {
         {name:'damage', value: 'damage'},
         {name:'d20 and plot', value: 'd20 and plot'},
         {name:'d20 and damage', value: 'd20 and damage'},
-        {name:'plot and damage', value: 'plot and damage'}
+        {name:'plot and damage', value: 'plot and damage'},
         {name:'all three', value: 'all three'}
       ],
     },

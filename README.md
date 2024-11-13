@@ -19,17 +19,21 @@ The Cosmere RPG is property of Brandon Sanderson and Brotherwise Games. Sylphren
     - For similar reasons, the same logic is used for disadvantaged plot die. The GM chooses their preferred result instead of the player.
     
 `/plot_attack <modifier> <damage_die>`: Rolls a standard attack, which consists of a 1d20, the plot die, and the damage die. The size and amount of damage dice is inputted by the user, and decided by the characters weapon. The modifier is added to both the 1d20 and the damage dice.
-    - This command is currently broken for any damage die value other than "1"
 
 ## Planned Features
 
 - Clean up the output of the `/attack_die` command, which is very unwieldy and cluttered at the moment.
+        - DONE!
 
 - Alter the plot-die logic of the advantage and disadvantage commands to filter out situations where the two plot die rolled different results, but one result is strictly better than the other.
     - This consists of (Blank and Opportunity) or (Complication +2 and Complication +4). In any case where one result is a Complication and the other is not, the "better result" is ambiguous.
     
+    - DONE! for `/advantage_roll` only, so far.
+    
 - Add `/advantage_attack` and `/disadvantage_attack` commands. These must incorporate all the usual features of advantaged/disadvantaged rolls and the attack roll,  while also taking into accont that the damage die can be advantaged/disadvantaged.
     - The most troublesome edge case is that if a player has a weapon that rolls 2 damage dice, like a Shardblade, they can choose to apply two advantages to the damage dice, one for each dice. The command choices should allow for this, but also ensure that it is only selected if the damage dice actually are 2 in number.
+    
+- Add additional "crossed-out" plot die emoji, for showing which plot die result is discarded when the plot die is advantaged/disadvantaged.
     
 ## Installation
 
