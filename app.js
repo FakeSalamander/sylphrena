@@ -496,7 +496,7 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
       msg = msg + " ---> ` " + finalRoll +  " ` Attack Roll! " + d20bonus + "\n";
       
       //Time for the final damage tally!
-      const fullDmgRoll = dmgRoll1 + dmgRoll2;
+      const fullDmgRoll = dmgRoll1 + dmgRoll2 + modifier;
       
       msg = msg + dmgMsg + " + " + modifier + " ---> ` " + fullDmgRoll + " ` Damage if hit!";
 
@@ -542,7 +542,7 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
           if (betterD20 === 20) { d20bonus = ", **Opportunity!**";}
           else if (betterD20 === 1) { d20bonus = ", **Complication!**";}
       
-          msg = "[" + betterD20 + ", ~~" + worseD20 + "~~] 2d20 Keep-Higher"+ d20bonus + "\n";
+          //msg = "[" + betterD20 + ", ~~" + worseD20 + "~~] 2d20 Keep-Higher"+ d20bonus + "\n";
       } else {
           // No multiple rolls, since the d20 isnt advantaged.
           //The raw roll of the 1d20, from 1 to 20
@@ -552,7 +552,7 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
           if (betterD20 === 20) { d20bonus = ", **Opportunity!**";}
           else if (betterD20 === 1) { d20bonus = ", **Complication!**";}
           
-          msg = "[" + betterD20 + "] 1d20 "+ d20bonus + "\n";
+          //msg = "[" + betterD20 + "] 1d20 "+ d20bonus + "\n";
       }
       
       
@@ -573,16 +573,32 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
           
           const plotResult2 = plotRollResult(plot2);
           plotBonus2 = plotRollBonus(plot2);
-        
+
           // if the two plot die rolled the same face, we can roughly treat this like an ordinary plot roll.
           if (plotResult1 === plotResult2) {
               msg = msg + plotRollEmoji(plot1) + plotResult1 + "\n\n";
+              needsTwoResults = false;
+        // if the results are Comp2 and Comp4, the Comp4 is assumed to be better
+          } else if (plotResult1 === "<:cosmere_comp2:1302349866617274629> **Complication!** Bonus +2" && plotResult2 === "<:cosmere_comp4:1302349867875565599> **Complication!** Bonus +4") {
+              msg = msg + plotRollEmoji(plot1) + plotResult2 + "\n\n";
+              needsTwoResults = false;
+              plotBonus1 = plotBonus2; //make sure to do this, since the final message always uses plotBonus1 if two rolls are not needed.
+        // Comp4 and Comp2. Same, but flipped. plotBonus1 is used
+          } else if (plotResult1 === "<:cosmere_comp4:1302349867875565599> **Complication!** Bonus +4" && plotResult2 === "<:cosmere_comp2:1302349866617274629> **Complication!** Bonus +2") {
+              msg = msg + plotRollEmoji(plot1) + plotRollEmoji(plot2) + " ** Complication!** Bonus +4\n\n";
+              needsTwoResults = false;
+        //if the results are Blank and Opportunity, Opportunity is assumed to be better.
+          } else if (plotResult1 === "<:cosmere_blank:1302349869318672395> Blank" && plotResult2 === "<:cosmere_opp:1302349870115459082> **Opportunity!**") {
+              msg = msg + plotRollEmoji(plot1) + plotResult2 + "\n\n";
+              needsTwoResults = false;
+        // if the results are Opportunity and Blank...
+          } else if (plotResult1 === "<:cosmere_opp:1302349870115459082> **Opportunity!**" && plotResult2 ===  "<:cosmere_blank:1302349869318672395> Blank" ) {
+              msg = msg + plotRollEmoji(plot1) + plotRollEmoji(plot2) + " **Opportunity!**\n\n";
               needsTwoResults = false;
           } else {
               msg = msg + plotResult1 + " ==OR== " + plotResult2 + "\n\n";
               needsTwoResults = true;
           }
-          
       } else {
           //The raw roll of the plot die, from 1 to 6
           const plotRoll = (Math.floor(Math.random() * 6) + 1);
@@ -593,6 +609,10 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
           msg = msg + plotResult + "\n\n";
           needsTwoResults = false;
       }
+      
+      
+      
+      
       
       // this block handles the final line of the message
       if (needsTwoResults) {

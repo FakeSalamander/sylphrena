@@ -28,7 +28,7 @@ The Cosmere RPG is property of Brandon Sanderson and Brotherwise Games. Sylphren
 - Alter the plot-die logic of the advantage and disadvantage commands to filter out situations where the two plot die rolled different results, but one result is strictly better than the other.
     - This consists of (Blank and Opportunity) or (Complication +2 and Complication +4). In any case where one result is a Complication and the other is not, the "better result" is ambiguous.
     
-    - DONE! for `/advantage_roll` only, so far.
+    - DONE! 
     
 - Add `/advantage_attack` and `/disadvantage_attack` commands. These must incorporate all the usual features of advantaged/disadvantaged rolls and the attack roll,  while also taking into accont that the damage die can be advantaged/disadvantaged.
     - The most troublesome edge case is that if a player has a weapon that rolls 2 damage dice, like a Shardblade, they can choose to apply two advantages to the damage dice, one for each dice. The command choices should allow for this, but also ensure that it is only selected if the damage dice actually are 2 in number.
