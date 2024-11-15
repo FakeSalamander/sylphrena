@@ -530,7 +530,7 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
       
       
       //handles the d20 roll/s , depending on if there is an advantage to it or not
-      if (which_adv === 'd20' || which_adv === 'both' ) {
+      if (which_adv === 'd20' || which_adv === 'd20 and plot' || which_adv === 'd20 and damage' || which_adv === 'all three' ) {
           //The raw roll of the 2d20, from 1 to 20
           const firstD20 = (Math.floor(Math.random() * 20) +1);
           const secondD20 = (Math.floor(Math.random() * 20) +1);
@@ -564,7 +564,7 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
       //determines if the final line  needs two potential results to show off.
       var needsTwoResults;
       
-      if (which_adv === 'plot' || which_adv === 'both') {
+      if (which_adv === 'plot' || which_adv === 'd20 and plot' || which_adv === 'plot and damage' || which_adv === 'all three') {
           const plot1 = (Math.floor(Math.random() * 6) + 1);
           const plot2 = (Math.floor(Math.random() * 6) + 1);
           
@@ -610,7 +610,33 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
           needsTwoResults = false;
       }
       
+      //depending on the situation, only dmgRoll1 might be used
+      var dmgRoll1;
+      var dmgRoll2 = 0;
+      var dmgRoll3 = 0;
+      var dmgMsg;
       
+      if (which_adv == 'damage' || which_adv == 'd20 and damage' || which_adv == 'plot and damage' || which_adv == 'all three' ) {
+          //one dice, and only one dice, is advantaged
+        
+      } else {
+            //time for the damage roll!
+          if (dmgSize === 0) {
+            dmgRoll1 = 1;
+            
+            dmgMsg = "[1] 1";
+            //msg = msg + "[1] No Damage Roll\n\n";
+          } else if (dmgCount === 1) {
+            dmgRoll1 = (Math.floor(Math.random() * dmgSize) +1);
+            dmgMsg =  "[" + dmgRoll1 + "] 1d" + dmgSize;
+            //msg = msg + dmgMsg + " Damage Roll\n\n";
+          } else {
+            dmgRoll1 = (Math.floor(Math.random() * dmgSize) +1);
+            dmgRoll2 = (Math.floor(Math.random() * dmgSize) +1);
+            dmgMsg =  "[" + dmgRoll1 + ", " + dmgRoll2 +  "] 2d" + dmgSize;
+            //msg = msg + dmgMsg + " Damage Roll\n\n";
+          }
+      }
       
       
       
