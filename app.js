@@ -615,10 +615,36 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
       var dmgRoll2 = 0;
       var dmgRoll3 = 0;
       var dmgMsg;
+      var fullDmgRoll;
       
       if (which_adv == 'damage' || which_adv == 'd20 and damage' || which_adv == 'plot and damage' || which_adv == 'all three' ) {
-          //one dice, and only one dice, is advantaged
-        
+          //one dice, and only one dice, is advantaged.
+        // we'll say that  dmgRoll1 and 2 are the advantaged dice,  3 is the potential extra unadvantaged die.
+          if (dmgSize === 0) {
+            
+            dmgMsg = "Invalid roll! There is no damage die to advantage.";
+          } else if (dmgCount === 1) {
+            dmgRoll1 = (Math.floor(Math.random() * dmgSize) +1);
+            dmgRoll2 = (Math.floor(Math.random() * dmgSize) +1);
+            
+            const betterDmg = Math.max(dmgRoll1, dmgRoll2);
+            const worseDmg = Math.max(dmgRoll1, dmgRoll2);
+            
+            dmgMsg = "[" + betterDmg + ", ~~" + worseDmg + "~~] 1d" + dmgSize + " adv";
+            
+            fullDmgRoll = betterDmg + modifier;
+          } else {
+            dmgRoll1 = (Math.floor(Math.random() * dmgSize) +1);
+            dmgRoll2 = (Math.floor(Math.random() * dmgSize) +1);
+            dmgRoll3 = (Math.floor(Math.random() * dmgSize) +1);
+            
+            const betterDmg = Math.max(dmgRoll1, dmgRoll2);
+            const worseDmg = Math.max(dmgRoll1, dmgRoll2);
+            
+            dmgMsg = "[" + betterDmg + ", ~~" + worseDmg + "~~] 1d" + dmgSize + " adv + [" + dmgRoll3 + "] 1d" + dmgSize ;
+            
+            fullDmgRoll = betterDmg + dmgRoll3 + modifier;
+          }
       } else {
             //time for the damage roll!
           if (dmgSize === 0) {
@@ -636,6 +662,8 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
             dmgMsg =  "[" + dmgRoll1 + ", " + dmgRoll2 +  "] 2d" + dmgSize;
             //msg = msg + dmgMsg + " Damage Roll\n\n";
           }
+          
+          fullDmgRoll = dmgRoll1 + dmgRoll2 + modifier;
       }
       
       
